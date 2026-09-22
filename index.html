@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Prompt Game Matematika Interaktif</title>
+    <title>Generator Prompt Game Matematika Interaktif | BBPMP Provinsi Jawa Timur</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -103,10 +103,19 @@
         </div>
 
         <div class="flex items-center space-x-2 sm:space-x-3">
+            <!-- Button Riwayat Prompt -->
             <button onclick="toggleHistoryModal()"
                 class="py-2 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 shadow-sm">
                 <i class="fa-solid fa-history text-brand-600 dark:text-brand-400"></i>
                 <span class="hidden sm:inline">Riwayat Prompt</span>
+            </button>
+
+            <!-- Button About / Tentang Pengembang -->
+            <button onclick="toggleAboutModal()"
+                class="py-2 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 shadow-sm"
+                title="Informasi Pengembang">
+                <i class="fa-solid fa-circle-info text-indigo-600 dark:text-indigo-400"></i>
+                <span class="hidden sm:inline">Tentang</span>
             </button>
 
             <!-- Working Theme Toggle Button -->
@@ -367,6 +376,14 @@
                         </label>
                     </div>
                 </div>
+
+                <!-- Button manual update -->
+                <button type="button" onclick="generateJSONPrompt(true)"
+                    class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 hover:from-brand-700 hover:to-purple-700 text-white font-bold text-base shadow-lg shadow-brand-500/20 active:scale-[0.99] transition transform flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-arrows-rotate text-lg"></i>
+                    <span>Segarkan Prompt JSON (Full Indonesia)</span>
+                </button>
+
             </form>
         </section>
 
@@ -437,13 +454,6 @@
                         <i class="fa-solid fa-paper-plane"></i>
                         <span>Salin Prompt Utuh (Siap Paste ke LLM)</span>
                     </button>
-                    <!-- Button manual update (jika diperlukan) -->
-                    <button type="button" onclick="generateJSONPrompt(true)"
-                        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 hover:from-brand-700 hover:to-purple-700 text-white text-xs font-bold text-base shadow-lg shadow-brand-500/20 active:scale-[0.99] transition transform flex items-center justify-center gap-2"
-                        title="Klik jika prompt tidak otomatis diperbarui">
-                        <i class="fa-solid fa-arrows-rotate"></i>
-                        <span>Segarkan Prompt JSON (Full Indonesia)</span>
-                    </button>
                 </div>
             </div>
 
@@ -466,7 +476,7 @@
     </main>
 
     <!-- Modal Riwayat Tersimpan -->
-    <div id="historyModal"
+    <div id="historyModal" onclick="if(event.target === this) toggleHistoryModal()"
         class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div
             class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl w-full max-w-xl p-5 space-y-4 shadow-2xl">
@@ -492,6 +502,85 @@
                 <button onclick="toggleHistoryModal()"
                     class="py-1.5 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs hover:bg-slate-200 dark:hover:bg-slate-700">
                     Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal About / Identitas Pengembang -->
+    <div id="aboutModal" onclick="if(event.target === this) toggleAboutModal()"
+        class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl w-full max-w-lg p-6 space-y-5 shadow-2xl relative overflow-hidden">
+            <!-- Accent Bar Bawah Modal -->
+            <div
+                class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600">
+            </div>
+
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-indigo-600 dark:text-indigo-400"></i> Tentang & Identitas
+                    Pengembang
+                </h3>
+                <button onclick="toggleAboutModal()"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-base">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Profile Content Card -->
+            <div
+                class="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                <div
+                    class="w-20 h-20 rounded-full bg-gradient-to-tr from-brand-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-md shadow-brand-500/20 shrink-0">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <div class="space-y-1.5 text-center sm:text-left">
+                    <h4 class="text-base font-bold text-slate-800 dark:text-slate-100">KIKI WULAN SARIE
+                    </h4>
+                    <p class="text-xs font-semibold text-brand-600 dark:text-brand-400">Pengembang & Inovator Teknologi
+                        Pendidikan Matematika</p>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Aplikasi ini dirancang khusus untuk mempermudah Bapak/Ibu Guru dan pengembang konten edukasi
+                        dalam menyusun prompt JSON terstruktur tinggi untuk menghasilkan game matematika interaktif
+                        berbasis HTML5.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detail Spesifikasi Platform -->
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <div
+                    class="p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/40">
+                    <span class="text-[10px] uppercase font-semibold text-slate-400">Versi Aplikasi</span>
+                    <p class="font-bold text-slate-800 dark:text-slate-200 mt-0.5">2.0 (Edisi Indonesia)</p>
+                </div>
+                <div
+                    class="p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/40">
+                    <span class="text-[10px] uppercase font-semibold text-slate-400">Target Jenjang</span>
+                    <p class="font-bold text-slate-800 dark:text-slate-200 mt-0.5">SD, SMP & SMA / SMK</p>
+                </div>
+            </div>
+
+            <!-- Tautan Kontak / Sosial Media -->
+            <div class="space-y-2">
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Dukungan & Kontak:</span>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <a href="mailto:kikiwulasarie@gmail.com"
+                        class="py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-envelope text-brand-500"></i> Email Kontak
+                    </a>
+                    <a href="https://github.com" target="_blank"
+                        class="py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5">
+                        <i class="fa-brands fa-github text-slate-800 dark:text-white"></i> GitHub Proyek
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button onclick="toggleAboutModal()"
+                    class="py-2 px-5 rounded-lg bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-semibold text-xs transition shadow-md shadow-brand-600/20">
+                    Selesai / Tutup
                 </button>
             </div>
         </div>
@@ -875,6 +964,11 @@
             if (!modal.classList.contains('hidden')) {
                 renderHistoryList();
             }
+        }
+
+        function toggleAboutModal() {
+            const modal = document.getElementById('aboutModal');
+            modal.classList.toggle('hidden');
         }
 
         function renderHistoryList() {
