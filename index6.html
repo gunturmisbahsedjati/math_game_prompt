@@ -646,29 +646,6 @@
             'SMA': ['Trigonometri Dasar', 'Matriks & Determinan', 'Fungsi Kuadrat & Grafik', 'Peluang & Kombinatorika', 'Turunan & Integral', 'Barisan & Deret']
         };
 
-        const REKOMENDASI_TUJUAN = {
-            'Penjumlahan & Pengurangan': 'Siswa dapat menghitung operasi penjumlahan dan pengurangan angka secara terampil melalui permainan interaktif.',
-            'Perkalian & Pembagian': 'Siswa mampu memahami konsep perkalian dan pembagian dasar serta menghitung hasil operasinya secara cepat dan akurat.',
-            'Pecahan Senilai': 'Siswa dapat membandingkan dan menentukan bentuk pecahan senilai menggunakan ilustrasi visual yang interaktif.',
-            'Bangun Datar & Keliling': 'Siswa mampu mengenali jenis-jenis bangun datar dan menghitung kelilingnya sesuai rumus dengan tepat.',
-            'Pengukuran Waktu & Jam': 'Siswa dapat membaca jarum jam, menentukan durasi waktu, serta menghitung konversi satuan waktu secara akurat.',
-            'Uang & Transaksi': 'Siswa mampu menghitung nilai pecahan uang, kembalian, dan memecahkan simulasi transaksi jual-beli dalam kehidupan sehari-hari.',
-
-            'Persamaan Linear Satu Variabel': 'Siswa dapat menentukan nilai variabel x dalam persamaan linear satu variabel untuk menyelesaikan tantangan game.',
-            'Teorema Pythagoras': 'Siswa mampu menerapkan rumus Teorema Pythagoras untuk menghitung panjang sisi segitiga siku-siku secara cermat.',
-            'Aritmetika Sosial & Diskon': 'Siswa dapat menghitung persentase diskon, untung, rugi, dan harga akhir barang dalam simulasi perbelanjaan.',
-            'SPLDV (Sistem Persamaan)': 'Siswa mampu menyelesaikan sistem persamaan linear dua variabel menggunakan metode eliminasi atau substitusi interaktif.',
-            'Statistika & Rata-rata': 'Siswa dapat menentukan nilai rata-rata (mean), median, dan modus dari kumpulan data statistik secara benar.',
-            'Perbandingan & Skala': 'Siswa mampu menghitung nilai perbandingan senilai/berbalik nilai serta mengkonversi ukuran peta berdasarkan skala.',
-
-            'Trigonometri Dasar': 'Siswa dapat menentukan nilai perbandingan trigonometri (sinus, kosinus, tangen) pada sudut-sudut istimewa secara tepat.',
-            'Matriks & Determinan': 'Siswa mampu menghitung penjumlahan, perkalian, serta determinan matriks ordo 2x2 dan 3x3 secara sistematis.',
-            'Fungsi Kuadrat & Grafik': 'Siswa dapat menganalisis titik puncak, sumbu simetri, dan bentuk grafik parabola fungsi kuadrat secara visual.',
-            'Peluang & Kombinatorika': 'Siswa mampu memecahkan perhitungan kombinasi, permutasi, dan peluang kejadian tunggal atau majemuk.',
-            'Turunan & Integral': 'Siswa dapat menerapkan aturan turunan dan integral fungsi aljabar untuk menyelesaikan persoalan penerapan fungsi.',
-            'Barisan & Deret': 'Siswa mampu menentukan suku ke-n dan jumlah n suku pertama dari barisan aritmetika serta geometri secara akurat.'
-        };
-
         const PILIHAN_KELAS = {
             'SD': ['Kelas 1 SD', 'Kelas 2 SD', 'Kelas 3 SD', 'Kelas 4 SD', 'Kelas 5 SD', 'Kelas 6 SD'],
             'SMP': ['Kelas 7 SMP', 'Kelas 8 SMP', 'Kelas 9 SMP'],
@@ -778,12 +755,6 @@
 
         function setTopic(topicText) {
             document.getElementById('customTopic').value = topicText;
-
-            // Perbarui Tujuan Pembelajaran secara dinamis jika terdapat rekomendasi yang sesuai
-            if (REKOMENDASI_TUJUAN[topicText]) {
-                document.getElementById('learningObjective').value = REKOMENDASI_TUJUAN[topicText];
-            }
-
             generateJSONPrompt();
         }
 
