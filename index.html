@@ -790,7 +790,7 @@
 
             const judulProyek = `Game Pembelajaran Matematika ${jenjang}: ${topik}`;
 
-            // KUNCI DAN NILAI STRICT 100% BAHASA INDONESIA
+            // KUNCI DAN NILAI STRICT 100% BAHASA INDONESIA DENGAN PERSYARATAN TEKNIS SANGAT KOMPLEKS
             generatedJSONObject = {
                 "instruksi_utama": PERINTAH_INSTRUKSI_UTAMA,
                 "versi_spesifikasi": "2.0-indonesia",
@@ -824,8 +824,29 @@
                 "persyaratan_teknis": {
                     "format_keluaran": "File HTML Tunggal Siap Jalan (CSS dan JavaScript Tertanam)",
                     "kerangka_css": "Tailwind CSS via CDN",
-                    "pustaka_pendukung": "FontAwesome 6 untuk Ikon, Tone.js untuk Suara Efek, Canvas-Confetti untuk Perayaan",
-                    "tanpa_alert": "Menggunakan kotak dialog / modal UI kustom, DILARANG alert() bawaan browser"
+                    "pustaka_pendukung": "FontAwesome 6 (Ikon), Tone.js (Sintesis Suara & Efek Audio), Canvas-Confetti (Efek Perayaan), Lucide Icons (Gaya Ikon Tambahan)",
+                    "desain_ui_ux_lanjutan": {
+                        "gaya_visual": "Neumorphism / Glassmorphism modern dengan efek blur latar belakang (backdrop-blur), bayangan bertingkat (multi-layered shadows), dan gradien warna dinamis",
+                        "skema_warna": "Mode Terang/Gelap adaptif dengan palet warna ramah mata (Slate/Indigo/Emerald) serta kontras tinggi untuk aksesibilitas",
+                        "sifat_tampilan": "Responsif penuh (Mobile-first design) dengan tata letak adaptif untuk HP, Tablet, dan Komputer"
+                    },
+                    "efek_visual_dan_animasi": {
+                        "mikro_interaksi": "Animasi transisi halus saat tombol diklik, hover effect dengan efek membesar (scale-105), dan umpan balik visual instan",
+                        "indikator_jawaban": "Efek getar (shake animation) untuk jawaban salah, dan efek sinar berkedip (glow/pulse animation) hijau untuk jawaban benar",
+                        "perayaan_kemenangan": "Ledakan confetti bertingkat (Canvas-Confetti) saat menyelesaikan kuis/mencapai skor tertinggi"
+                    },
+                    "sistem_audio_interaktif": {
+                        "efek_suara_sintetis": "Menggunakan Tone.js untuk sintesis audio tanpa file eksternal (Suara Klik, Jawaban Benar [nada tinggi C-E-G], Jawaban Salah [nada rendah], dan Waktu Habis)",
+                        "kontrol_audio": "Tombol Toggle Mute/Unmute audio yang selalu terlihat di pojok atas layar"
+                    },
+                    "interaksi_dan_dialog": {
+                        "tanpa_alert": "DILARANG menggunakan alert(), confirm(), atau prompt() bawaan browser. Wajib menggunakan Modal/Dialog UI kustom dengan animasi fade-in/slide-up",
+                        "umpan_balik_dinamis": "Popup penjelasan/pembahasan soal kustom yang muncul otomatis setelah memilih jawaban"
+                    },
+                    "pengelolaan_data_dan_status": {
+                        "penyimpanan_lokal": "Fitur simpan skor tertinggi (High Score), riwayat kuis, dan preferensi suara/tema menggunakan localStorage",
+                        "manajemen_state": "Sistem state JavaScript yang bersih untuk menangani transisi antar layar (Layar Utama -> Layar Game -> Layar Hasil) tanpa reload halaman"
+                    }
                 },
                 "petunjuk_sistem_ai": `Bertindaklah sebagai pengembang game edukasi web profesional. Buatkan kode HTML tunggal yang LENGKAP, SIAP JALAN, dan INTERAKTIF berdasarkan seluruh spesifikasi JSON Bahasa Indonesia di atas. Tulis seluruh ${questionCount} soal latihan lengkap beserta opsi jawaban dan pembahasannya.`
             };
