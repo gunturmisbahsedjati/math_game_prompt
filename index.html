@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Prompt Game Matematika Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        pre,
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(226, 232, 240, 0.6);
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.8);
+            border-radius: 4px;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 1);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+    <header
+        class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 lg:px-8 py-3.5 flex items-center justify-between shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div
+                class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                <i class="fa-solid fa-calculator text-xl"></i>
+            </div>
+            <div>
+                <h1
+                    class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 dark:from-brand-400 dark:via-indigo-300 dark:to-pink-400">
+                    Generator Prompt Game Matematika
+                </h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Penyusun Prompt Media Pembelajaran SD, SMP & SMA
+                    (Full Bahasa Indonesia)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <button onclick="toggleHistoryModal()"
+                class="py-2 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700 transition flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-history text-brand-600 dark:text-brand-400"></i>
+                <span class="hidden sm:inline">Riwayat Prompt</span>
+            </button>
+
+            <!-- Working Theme Toggle Button -->
+            <button id="themeToggle" onclick="toggleTheme()"
+                class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors shadow-sm"
+                title="Ubah Tema Warna">
+                <i id="themeIcon" class="fa-solid fa-moon text-lg text-slate-700"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- KOLOM KIRI: Form Controls -->
+        <section class="lg:col-span-7 space-y-6">
+
+            <!-- Preset Pilihan Cepat -->
+            <div
+                class="bg-white dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-200 dark:border-slate-700/60 shadow-sm backdrop-blur-sm">
+                <div class="flex items-center justify-between mb-3">
+                    <span
+                        class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-brand-500 dark:text-brand-400"></i> Preset Contoh
+                        Pembelajaran
+                    </span>
+                    <span class="text-[11px] text-slate-400 dark:text-slate-500">Klik untuk memuat cepat</span>
+                </div>
+                <div class="flex flex-wrap gap-2" id="presetButtonsContainer">
+                    <!-- Preset diisi oleh JS -->
+                </div>
+            </div>
+
+            <!-- Form Utama -->
+            <form id="generatorForm" class="space-y-6" onsubmit="event.preventDefault();">
+
+                <!-- 1. Jenjang Pendidikan & Tingkat Kelas -->
+                <div
+                    class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+                    <h2
+                        class="text-md font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 pb-2">
+                        <i class="fa-solid fa-graduation-cap"></i> 1. Jenjang Pendidikan & Tingkat Kelas
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="jenjang" value="SD" class="peer sr-only" checked
+                                onchange="updateClassOptions(); updateTopicSuggestions(); generateJSONPrompt();">
+                            <div
+                                class="p-3.5 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 peer-checked:border-brand-500 peer-checked:bg-brand-50 dark:peer-checked:bg-brand-500/10 hover:border-slate-300 dark:hover:border-slate-600 transition">
+                                <i class="fa-solid fa-child text-xl mb-1 text-amber-500"></i>
+                                <div class="font-bold text-sm text-slate-800 dark:text-slate-100">SD</div>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400">Sekolah Dasar</div>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="jenjang" value="SMP" class="peer sr-only"
+                                onchange="updateClassOptions(); updateTopicSuggestions(); generateJSONPrompt();">
+                            <div
+                                class="p-3.5 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 peer-checked:border-brand-500 peer-checked:bg-brand-50 dark:peer-checked:bg-brand-500/10 hover:border-slate-300 dark:hover:border-slate-600 transition">
+                                <i class="fa-solid fa-user-graduate text-xl mb-1 text-emerald-500"></i>
+                                <div class="font-bold text-sm text-slate-800 dark:text-slate-100">SMP</div>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400">Menengah Pertama</div>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="jenjang" value="SMA" class="peer sr-only"
+                                onchange="updateClassOptions(); updateTopicSuggestions(); generateJSONPrompt();">
+                            <div
+                                class="p-3.5 text-center rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 peer-checked:border-brand-500 peer-checked:bg-brand-50 dark:peer-checked:bg-brand-500/10 hover:border-slate-300 dark:hover:border-slate-600 transition">
+                                <i class="fa-solid fa-university text-xl mb-1 text-indigo-500"></i>
+                                <div class="font-bold text-sm text-slate-800 dark:text-slate-100">SMA / SMK</div>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400">Menengah Atas</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Tingkat
+                                Kelas</label>
+                            <select id="kelasSelect" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <!-- Diisi oleh JS -->
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Tingkat
+                                Kesulitan / Target Keterampilan</label>
+                            <select id="kesulitanSelect" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <option value="Sangat Mudah (Pemahaman Dasar)">Sangat Mudah (Pemahaman Dasar)</option>
+                                <option value="Mudah (Latihan Rutin)">Mudah (Latihan Rutin)</option>
+                                <option value="Sedang (Standar Kurikulum)" selected>Sedang (Standar Kurikulum)</option>
+                                <option value="Sulit (Penalaran HOTS)">Sulit (Penalaran HOTS)</option>
+                                <option value="Adaptif (Menyesuaikan Performa Siswa)">Adaptif (Menyesuaikan Performa
+                                    Siswa)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Topik & Materi Matematika -->
+                <div
+                    class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+                    <h2
+                        class="text-md font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 pb-2">
+                        <i class="fa-solid fa-book-open"></i> 2. Topik & Materi Pembelajaran
+                    </h2>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Rekomendasi
+                            Topik Cepat</label>
+                        <div id="topicPillContainer" class="flex flex-wrap gap-1.5 mb-3">
+                            <!-- Diisi oleh JS -->
+                        </div>
+
+                        <label for="customTopic"
+                            class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Topik Utama /
+                            Judul Bab</label>
+                        <input type="text" id="customTopic" oninput="generateJSONPrompt()"
+                            placeholder="Contoh: Penjumlahan dan Pengurangan Pecahan"
+                            value="Penjumlahan dan Pengurangan Pecahan"
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+
+                    <div>
+                        <label for="learningObjective"
+                            class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Tujuan
+                            Pembelajaran</label>
+                        <textarea id="learningObjective" oninput="generateJSONPrompt()" rows="2"
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-brand-500 outline-none">Siswa dapat memahami serta menyelesaikan perhitungan penjumlahan dan pengurangan pecahan secara visual dan akurat.</textarea>
+                    </div>
+                </div>
+
+                <!-- 3. Mekanik Game & Tema Visual -->
+                <div
+                    class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+                    <h2
+                        class="text-md font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 pb-2">
+                        <i class="fa-solid fa-gamepad"></i> 3. Mekanik Game & Tema Visual
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Mekanik
+                                Utama Game</label>
+                            <select id="mechanicSelect" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <option value="Puzzle & Pencocokan Drag Drop">Puzzle & Pencocokan Drag Drop</option>
+                                <option value="Kuis Pacu Waktu Interaktif">Kuis Pacu Waktu Interaktif</option>
+                                <option value="Game Petualangan RPG Sederhana">Game Petualangan RPG Sederhana</option>
+                                <option value="Kartu Memori / Pencocokan Pasangan">Kartu Memori / Pencocokan Pasangan
+                                </option>
+                                <option value="Roda Keberuntungan / Spinner Matematika">Roda Keberuntungan / Spinner
+                                    Matematika</option>
+                                <option value="Tower Defense Strategi Angka">Tower Defense Strategi Angka</option>
+                                <option value="Simulasi Interaktif & Eksplorasi Visual">Simulasi Interaktif & Eksplorasi
+                                    Visual</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Gaya Visual
+                                & Tema</label>
+                            <select id="themeStyleSelect" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <option value="Dunia Kartun Ceria & Warna-Warni">Dunia Kartun Ceria & Warna-Warni
+                                </option>
+                                <option value="Kapur & Papan Tulis Sekolah Klasik">Kapur & Papan Tulis Sekolah Klasik
+                                </option>
+                                <option value="Piksel Retro Arcade 8-bit">Piksel Retro Arcade 8-bit</option>
+                                <option value="Minimalis Clean & Modern">Minimalis Clean & Modern</option>
+                                <option value="Ruang Angkasa & Sci-Fi">Ruang Angkasa & Sci-Fi</option>
+                                <option value="Cyberpunk Modern Futuristic">Cyberpunk Modern Futuristic</option>
+                                <option value="Dunia Fantasi & Petualangan Hutan">Dunia Fantasi & Petualangan Hutan
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Jumlah Soal
+                                / Level</label>
+                            <select id="questionCount" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <option value="5">5 Soal (Singkat)</option>
+                                <option value="10" selected>10 Soal (Standar)</option>
+                                <option value="15">15 Soal (Komprehensif)</option>
+                                <option value="20">20 Soal (Tantangan Lengkap)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Bahasa
+                                Pengantar Game</label>
+                            <select id="languageSelect" onchange="generateJSONPrompt()"
+                                class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-brand-500 outline-none">
+                                <option value="Full Bahasa Indonesia" selected>Full Bahasa Indonesia</option>
+                                <option value="Bilingual (Bahasa Indonesia & Inggris)">Bilingual (Bahasa Indonesia &
+                                    Inggris)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Fitur Pedagogis & Tambahan -->
+                <div
+                    class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-3">
+                    <h2
+                        class="text-md font-semibold text-brand-600 dark:text-brand-400 flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 pb-2">
+                        <i class="fa-solid fa-sliders"></i> 4. Fitur Pedagogis & Interaksi Game
+                    </h2>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featSound" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-volume-high text-slate-400 mr-1"></i> Suara Efek & Musik</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featTimer" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-clock text-slate-400 mr-1"></i> Mode Timer Terbatas</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featLives" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-heart text-rose-500 mr-1"></i> Sistem Nyawa Kesempatan</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featHint" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Petunjuk / Hint
+                                Bertahap</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featSolution" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-file-pen text-emerald-500 mr-1"></i> Pembahasan Langkah</span>
+                        </label>
+
+                        <label
+                            class="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 cursor-pointer bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/60 hover:border-slate-400 transition">
+                            <input type="checkbox" id="featScore" checked onchange="generateJSONPrompt()"
+                                class="rounded border-slate-300 dark:border-slate-700 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                            <span><i class="fa-solid fa-trophy text-amber-500 mr-1"></i> Skor, Bintang & Lencana</span>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <!-- KOLOM KANAN: Display & Preview -->
+        <section class="lg:col-span-5 flex flex-col space-y-4">
+
+            <div
+                class="bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-lg flex-1 flex flex-col overflow-hidden min-h-[520px]">
+
+                <!-- Output Header & Tab Switcher -->
+                <div
+                    class="bg-slate-100 dark:bg-slate-900/80 px-4 py-3 border-b border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span
+                            class="text-xs font-mono text-slate-500 dark:text-slate-400 ml-2">spesifikasi_game.json</span>
+                    </div>
+
+                    <!-- View Switcher -->
+                    <div class="flex bg-slate-200 dark:bg-slate-900 rounded-lg p-1 text-xs">
+                        <button id="btnViewFormatted" onclick="switchView('formatted')"
+                            class="px-2.5 py-1 rounded-md bg-white dark:bg-brand-600 text-brand-700 dark:text-white font-semibold shadow-sm transition">
+                            <i class="fa-solid fa-code text-[10px] mr-1"></i> JSON
+                        </button>
+                        <button id="btnViewParsed" onclick="switchView('parsed')"
+                            class="px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium transition">
+                            <i class="fa-solid fa-eye text-[10px] mr-1"></i> Ringkasan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Container -->
+                <div class="relative flex-1 bg-slate-900 p-4 overflow-auto max-h-[500px]">
+                    <!-- Raw JSON Text Display -->
+                    <pre id="jsonOutput"
+                        class="text-xs text-emerald-400 font-mono whitespace-pre-wrap break-all leading-relaxed"></pre>
+
+                    <!-- Visual Summary Display -->
+                    <div id="parsedOutput" class="hidden text-xs text-slate-300 space-y-3 font-sans">
+                        <!-- Diisi oleh JS -->
+                    </div>
+                </div>
+
+                <!-- Action Bar Bawah -->
+                <div
+                    class="p-3 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/60 flex flex-col gap-2">
+                    <div class="grid grid-cols-2 gap-2">
+                        <!-- Salin JSON Saja -->
+                        <button onclick="copyJSONOnly()"
+                            class="py-2 px-3 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5 transition shadow-sm">
+                            <i class="fa-solid fa-copy text-brand-600 dark:text-brand-400"></i>
+                            <span>Salin JSON</span>
+                        </button>
+
+                        <!-- Download File JSON -->
+                        <button onclick="downloadJSONFile()"
+                            class="py-2 px-3 rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5 transition shadow-sm">
+                            <i class="fa-solid fa-download text-emerald-600 dark:text-emerald-400"></i>
+                            <span>Download JSON</span>
+                        </button>
+                    </div>
+
+                    <!-- Salin Prompt Utuh -->
+                    <button onclick="copyFullPrompt()"
+                        class="w-full py-2.5 px-3 rounded-lg bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition shadow-md shadow-brand-600/20">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Salin Prompt Utuh (Siap Paste ke LLM)</span>
+                    </button>
+                    <!-- Button manual update (jika diperlukan) -->
+                    <button type="button" onclick="generateJSONPrompt(true)"
+                        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 hover:from-brand-700 hover:to-purple-700 text-white text-xs font-bold text-base shadow-lg shadow-brand-500/20 active:scale-[0.99] transition transform flex items-center justify-center gap-2"
+                        title="Klik jika prompt tidak otomatis diperbarui">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Segarkan Prompt JSON (Full Indonesia)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Petunjuk Penggunaan -->
+            <div
+                class="bg-white dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700/40 text-xs text-slate-600 dark:text-slate-400 space-y-2 shadow-sm">
+                <div class="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Panduan Langkah:
+                </div>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600 dark:text-slate-300">
+                    <li>Sesuaikan topik, kelas, mekanik, dan fitur pedagogis matematika.</li>
+                    <li>Klik <b>"Salin Prompt Utuh"</b>.</li>
+                    <li>Buka AI pilihan Anda (Gemini, ChatGPT, atau Claude) lalu *Paste*. AI akan langsung merancang
+                        kode HTML game tunggal utuh siap pakai!</li>
+                </ol>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal Riwayat Tersimpan -->
+    <div id="historyModal"
+        class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl w-full max-w-xl p-5 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-history text-brand-600 dark:text-brand-400"></i> Riwayat Prompt Tersimpan
+                </h3>
+                <button onclick="toggleHistoryModal()"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="historyListContainer" class="max-h-72 overflow-y-auto space-y-2 text-xs">
+                <!-- Diisi oleh JS -->
+            </div>
+
+            <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+                <button onclick="clearHistory()"
+                    class="text-xs text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1">
+                    <i class="fa-solid fa-trash"></i> Hapus Semua Riwayat
+                </button>
+                <button onclick="toggleHistoryModal()"
+                    class="py-1.5 px-4 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs hover:bg-slate-200 dark:hover:bg-slate-700">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-emerald-600 text-white text-xs font-medium py-2.5 px-4 rounded-xl shadow-2xl flex items-center gap-2 z-50">
+        <i class="fa-solid fa-circle-check text-base"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const PERINTAH_INSTRUKSI_UTAMA = "Buatkan kode game HTML tunggal siap jalan berdasarkan spesifikasi JSON berikut:";
+
+        const PRESET_CONTOH = [
+            {
+                id: 'sd-pecahan',
+                label: 'SD: Petualangan Pecahan',
+                icon: 'fa-pie-chart',
+                jenjang: 'SD',
+                kelas: 'Kelas 4 SD',
+                topic: 'Penjumlahan dan Pengurangan Pecahan',
+                objective: 'Siswa dapat memvisualisasikan penjumlahan dan pengurangan pecahan menggunakan potongan bentuk visual secara akurat.',
+                mechanic: 'Puzzle & Pencocokan Drag Drop',
+                theme: 'Dunia Kartun Ceria & Warna-Warni',
+                questions: '10',
+                kesulitan: 'Mudah (Latihan Rutin)'
+            },
+            {
+                id: 'smp-aljabar',
+                label: 'SMP: Aljabar RPG Battle',
+                icon: 'fa-shield-halved',
+                jenjang: 'SMP',
+                kelas: 'Kelas 7 SMP',
+                topic: 'Persamaan Linear Satu Variabel',
+                objective: 'Siswa mampu menentukan nilai variabel x dalam persamaan linear sederhana untuk menyelesaikan tantangan game.',
+                mechanic: 'Game Petualangan RPG Sederhana',
+                theme: 'Piksel Retro Arcade 8-bit',
+                questions: '10',
+                kesulitan: 'Sedang (Standar Kurikulum)'
+            },
+            {
+                id: 'sma-trigo',
+                label: 'SMA: Trigonometri Defense',
+                icon: 'fa-atom',
+                jenjang: 'SMA',
+                kelas: 'Kelas 10 SMA',
+                topic: 'Trigonometri Dasar (Sin, Cos, Tan)',
+                objective: 'Siswa dapat menghitung nilai Sin, Cos, dan Tan sudut istimewa untuk menembak target.',
+                mechanic: 'Tower Defense Strategi Angka',
+                theme: 'Cyberpunk Modern Futuristic',
+                questions: '15',
+                kesulitan: 'Sulit (Penalaran HOTS)'
+            }
+        ];
+
+        const REKOMENDASI_TOPIK = {
+            'SD': ['Penjumlahan & Pengurangan', 'Perkalian & Pembagian', 'Pecahan Senilai', 'Bangun Datar & Keliling', 'Pengukuran Waktu & Jam', 'Uang & Transaksi'],
+            'SMP': ['Persamaan Linear Satu Variabel', 'Teorema Pythagoras', 'Aritmetika Sosial & Diskon', 'SPLDV (Sistem Persamaan)', 'Statistika & Rata-rata', 'Perbandingan & Skala'],
+            'SMA': ['Trigonometri Dasar', 'Matriks & Determinan', 'Fungsi Kuadrat & Grafik', 'Peluang & Kombinatorika', 'Turunan & Integral', 'Barisan & Deret']
+        };
+
+        const PILIHAN_KELAS = {
+            'SD': ['Kelas 1 SD', 'Kelas 2 SD', 'Kelas 3 SD', 'Kelas 4 SD', 'Kelas 5 SD', 'Kelas 6 SD'],
+            'SMP': ['Kelas 7 SMP', 'Kelas 8 SMP', 'Kelas 9 SMP'],
+            'SMA': ['Kelas 10 SMA', 'Kelas 11 SMA', 'Kelas 12 SMA']
+        };
+
+        let currentActiveView = 'formatted';
+        let generatedJSONObject = {};
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            renderPresets();
+            updateClassOptions();
+            updateTopicSuggestions();
+            generateJSONPrompt(false);
+        });
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme_preference') || 'light';
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+
+            if (savedTheme === 'dark') {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                icon.className = 'fa-solid fa-sun text-lg text-amber-400';
+            } else {
+                html.classList.add('light');
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon text-lg text-slate-700';
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const isDark = html.classList.contains('dark');
+
+            if (isDark) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('theme_preference', 'light');
+                icon.className = 'fa-solid fa-moon text-lg text-slate-700';
+                showToast("Tema diubah ke Terang (Light Mode)");
+            } else {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                localStorage.setItem('theme_preference', 'dark');
+                icon.className = 'fa-solid fa-sun text-lg text-amber-400';
+                showToast("Tema diubah ke Gelap (Dark Mode)");
+            }
+        }
+
+        function renderPresets() {
+            const container = document.getElementById('presetButtonsContainer');
+            container.innerHTML = PRESET_CONTOH.map(p => `
+                <button type="button" onclick="loadPreset('${p.id}')" class="text-xs bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700/80 py-1.5 px-3 rounded-xl flex items-center gap-1.5 transition shadow-sm">
+                    <i class="fa-solid ${p.icon} text-brand-600 dark:text-brand-400"></i>
+                    <span>${p.label}</span>
+                </button>
+            `).join('');
+        }
+
+        function loadPreset(presetId) {
+            const p = PRESET_CONTOH.find(x => x.id === presetId);
+            if (!p) return;
+
+            const radios = document.getElementsByName('jenjang');
+            for (let r of radios) {
+                if (r.value === p.jenjang) r.checked = true;
+            }
+
+            updateClassOptions();
+            updateTopicSuggestions();
+
+            document.getElementById('kelasSelect').value = p.kelas;
+            document.getElementById('kesulitanSelect').value = p.kesulitan;
+            document.getElementById('customTopic').value = p.topic;
+            document.getElementById('learningObjective').value = p.objective;
+            document.getElementById('mechanicSelect').value = p.mechanic;
+            document.getElementById('themeStyleSelect').value = p.theme;
+            document.getElementById('questionCount').value = p.questions;
+
+            generateJSONPrompt(true);
+            showToast(`Preset "${p.label}" berhasil dimuat!`);
+        }
+
+        function updateClassOptions() {
+            const selectedJenjang = getSelectedJenjang();
+            const select = document.getElementById('kelasSelect');
+            const options = PILIHAN_KELAS[selectedJenjang] || [];
+
+            select.innerHTML = options.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function updateTopicSuggestions() {
+            const selectedJenjang = getSelectedJenjang();
+            const pillsContainer = document.getElementById('topicPillContainer');
+            const suggestions = REKOMENDASI_TOPIK[selectedJenjang] || [];
+
+            pillsContainer.innerHTML = suggestions.map(t => `
+                <button type="button" onclick="setTopic('${t}')" class="text-[11px] bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-300 py-1 px-2.5 rounded-lg transition">
+                    + ${t}
+                </button>
+            `).join('');
+        }
+
+        function setTopic(topicText) {
+            document.getElementById('customTopic').value = topicText;
+            generateJSONPrompt();
+        }
+
+        function getSelectedJenjang() {
+            const radios = document.getElementsByName('jenjang');
+            for (let r of radios) {
+                if (r.checked) return r.value;
+            }
+            return 'SD';
+        }
+
+        function generateJSONPrompt(shouldSaveHistory = false) {
+            const jenjang = getSelectedJenjang();
+            const kelas = document.getElementById('kelasSelect').value;
+            const kesulitan = document.getElementById('kesulitanSelect').value;
+            const topik = document.getElementById('customTopic').value.trim() || 'Matematika Dasar';
+            const objective = document.getElementById('learningObjective').value.trim() || 'Meningkatkan pemahaman konsep matematika.';
+            const meks = document.getElementById('mechanicSelect').value;
+            const theme = document.getElementById('themeStyleSelect').value;
+            const questionCount = parseInt(document.getElementById('questionCount').value) || 10;
+            const language = document.getElementById('languageSelect').value;
+
+            const featSound = document.getElementById('featSound').checked;
+            const featTimer = document.getElementById('featTimer').checked;
+            const featLives = document.getElementById('featLives').checked;
+            const featHint = document.getElementById('featHint').checked;
+            const featSolution = document.getElementById('featSolution').checked;
+            const featScore = document.getElementById('featScore').checked;
+
+            let rentangUsia = "7 - 12 Tahun";
+            if (jenjang === "SMP") rentangUsia = "13 - 15 Tahun";
+            if (jenjang === "SMA") rentangUsia = "16 - 18 Tahun";
+
+            const judulProyek = `Game Pembelajaran Matematika ${jenjang}: ${topik}`;
+
+            // KUNCI DAN NILAI STRICT 100% BAHASA INDONESIA
+            generatedJSONObject = {
+                "instruksi_utama": PERINTAH_INSTRUKSI_UTAMA,
+                "versi_spesifikasi": "2.0-indonesia",
+                "nama_proyek": judulProyek,
+                "target_siswa": {
+                    "jenjang_pendidikan": jenjang,
+                    "tingkat_kelas": kelas,
+                    "estimasi_rentang_usia": rentangUsia
+                },
+                "materi_pembelajaran": {
+                    "mata_pelajaran": "Matematika",
+                    "topik_utama": topik,
+                    "tingkat_kesulitan": kesulitan,
+                    "tujuan_pembelajaran": objective,
+                    "bahasa_pengantar": language
+                },
+                "spesifikasi_game": {
+                    "mekanik_game": meks,
+                    "gaya_visual_tema": theme,
+                    "jumlah_soal": questionCount,
+                    "desain_tampilan": "Responsif Penuh untuk HP, Tablet, dan Komputer"
+                },
+                "fitur_pembelajaran": {
+                    "suara_efek_dan_musik": featSound ? "Efek suara interaktif untuk jawaban benar, salah, dan kemenangan" : "Tidak Aktif",
+                    "mode_pilihan_waktu": featTimer ? "Timer hitung mundur terbatas per soal dengan skor bonus" : "Tidak Aktif",
+                    "sistem_nyawa": featLives ? "Sistem 3 Kesempatan / Nyawa" : "Kesempatan Tanpa Batas",
+                    "petunjuk_hint_berproses": featHint ? "Petunjuk bantu bertahap saat siswa kesulitan" : "Tidak Aktif",
+                    "pembahasan_langkah_soal": featSolution ? "Pembahasan langkah rinci setelah menjawab" : "Tidak Aktif",
+                    "sistem_poin_dan_bintang": featScore ? "Perhitungan poin real-time dan lencana bintang hasil akhir" : "Skor Sederhana"
+                },
+                "persyaratan_teknis": {
+                    "format_keluaran": "File HTML Tunggal Siap Jalan (CSS dan JavaScript Tertanam)",
+                    "kerangka_css": "Tailwind CSS via CDN",
+                    "pustaka_pendukung": "FontAwesome 6 untuk Ikon, Tone.js untuk Suara Efek, Canvas-Confetti untuk Perayaan",
+                    "tanpa_alert": "Menggunakan kotak dialog / modal UI kustom, DILARANG alert() bawaan browser"
+                },
+                "petunjuk_sistem_ai": `Bertindaklah sebagai pengembang game edukasi web profesional. Buatkan kode HTML tunggal yang LENGKAP, SIAP JALAN, dan INTERAKTIF berdasarkan seluruh spesifikasi JSON Bahasa Indonesia di atas. Tulis seluruh ${questionCount} soal latihan lengkap beserta opsi jawaban dan pembahasannya.`
+            };
+
+            renderOutput();
+
+            if (shouldSaveHistory) {
+                saveToHistory(generatedJSONObject);
+            }
+        }
+
+        function renderOutput() {
+            const jsonStr = JSON.stringify(generatedJSONObject, null, 2);
+            document.getElementById('jsonOutput').textContent = jsonStr;
+
+            const parsedDiv = document.getElementById('parsedOutput');
+            parsedDiv.innerHTML = `
+                <div class="bg-brand-950/60 p-3 rounded-lg border border-brand-500/30">
+                    <span class="text-[11px] text-brand-400 font-bold uppercase">Instruksi Utama:</span>
+                    <p class="text-xs font-semibold text-slate-100 mt-0.5">"${generatedJSONObject.instruksi_utama}"</p>
+                </div>
+
+                <div class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                    <span class="text-xs text-brand-400 font-bold">Judul Proyek:</span>
+                    <p class="text-sm font-semibold text-slate-100">${generatedJSONObject.nama_proyek}</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700">
+                        <span class="text-[10px] text-slate-400">Target Kelas:</span>
+                        <p class="text-xs font-medium text-slate-200">${generatedJSONObject.target_siswa.tingkat_kelas}</p>
+                    </div>
+                    <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700">
+                        <span class="text-[10px] text-slate-400">Jumlah Soal:</span>
+                        <p class="text-xs font-medium text-slate-200">${generatedJSONObject.spesifikasi_game.jumlah_soal} Soal</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 p-3 rounded-lg border border-slate-700 space-y-1">
+                    <span class="text-xs text-brand-400 font-bold">Mekanik & Tema:</span>
+                    <p class="text-xs text-slate-300"><b>Mekanik:</b> ${generatedJSONObject.spesifikasi_game.mekanik_game}</p>
+                    <p class="text-xs text-slate-300"><b>Visual:</b> ${generatedJSONObject.spesifikasi_game.gaya_visual_tema}</p>
+                    <p class="text-xs text-slate-300"><b>Kesulitan:</b> ${generatedJSONObject.materi_pembelajaran.tingkat_kesulitan}</p>
+                </div>
+            `;
+        }
+
+        function switchView(mode) {
+            currentActiveView = mode;
+            const btnFormatted = document.getElementById('btnViewFormatted');
+            const btnParsed = document.getElementById('btnViewParsed');
+            const rawOutput = document.getElementById('jsonOutput');
+            const parsedOutput = document.getElementById('parsedOutput');
+
+            if (mode === 'formatted') {
+                btnFormatted.className = "px-2.5 py-1 rounded-md bg-white dark:bg-brand-600 text-brand-700 dark:text-white font-semibold shadow-sm transition";
+                btnParsed.className = "px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium transition";
+                rawOutput.classList.remove('hidden');
+                parsedOutput.classList.add('hidden');
+            } else {
+                btnParsed.className = "px-2.5 py-1 rounded-md bg-white dark:bg-brand-600 text-brand-700 dark:text-white font-semibold shadow-sm transition";
+                btnFormatted.className = "px-2.5 py-1 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium transition";
+                rawOutput.classList.add('hidden');
+                parsedOutput.classList.remove('hidden');
+            }
+        }
+
+        function copyJSONOnly() {
+            const jsonText = JSON.stringify(generatedJSONObject, null, 2);
+            executeCopy(jsonText, "JSON Spesifikasi berhasil disalin!");
+            saveToHistory(generatedJSONObject);
+        }
+
+        function copyFullPrompt() {
+            const jsonText = JSON.stringify(generatedJSONObject, null, 2);
+            const fullPrompt = `${PERINTAH_INSTRUKSI_UTAMA}\n\n${jsonText}`;
+            executeCopy(fullPrompt, "Prompt Utuh (Instruksi + JSON) berhasil disalin!");
+            saveToHistory(generatedJSONObject);
+        }
+
+        function downloadJSONFile() {
+            const jsonText = JSON.stringify(generatedJSONObject, null, 2);
+            const blob = new Blob([jsonText], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+
+            const filename = (generatedJSONObject.nama_proyek || 'prompt_game_matematika')
+                .toLowerCase()
+                .replace(/[^a-z0-id0-9]/g, '_') + '.json';
+
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast("File JSON berhasil diunduh!");
+            saveToHistory(generatedJSONObject);
+        }
+
+        function executeCopy(text, successMessage) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast(successMessage);
+            } catch (err) {
+                showToast("Gagal menyalin secara otomatis.");
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function saveToHistory(obj) {
+            if (!obj || !obj.nama_proyek) return;
+            let history = JSON.parse(localStorage.getItem('math_prompt_history_id') || '[]');
+            history = history.filter(item => item.nama_proyek !== obj.nama_proyek);
+            history.unshift({
+                waktu: new Date().toLocaleString('id-ID'),
+                nama_proyek: obj.nama_proyek,
+                kelas: obj.target_siswa.tingkat_kelas,
+                data: obj
+            });
+            if (history.length > 10) history = history.slice(0, 10);
+            localStorage.setItem('math_prompt_history_id', JSON.stringify(history));
+        }
+
+        function toggleHistoryModal() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderHistoryList();
+            }
+        }
+
+        function renderHistoryList() {
+            const container = document.getElementById('historyListContainer');
+            const history = JSON.parse(localStorage.getItem('math_prompt_history_id') || '[]');
+
+            if (history.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 italic text-center py-4">Belum ada riwayat prompt tersimpan.</p>`;
+                return;
+            }
+
+            container.innerHTML = history.map((h, index) => `
+                <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700/70 flex items-center justify-between gap-3 hover:border-brand-500 transition">
+                    <div>
+                        <div class="font-semibold text-slate-800 dark:text-slate-200">${h.nama_proyek}</div>
+                        <div class="text-[10px] text-slate-500 dark:text-slate-400">${h.kelas} • ${h.waktu}</div>
+                    </div>
+                    <button onclick="loadHistoryItem(${index})" class="py-1 px-2.5 rounded-lg bg-brand-50 dark:bg-brand-600/20 hover:bg-brand-600 text-brand-600 dark:text-brand-300 hover:text-white text-xs border border-brand-200 dark:border-brand-500/30 transition">
+                        Muat
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function loadHistoryItem(index) {
+            const history = JSON.parse(localStorage.getItem('math_prompt_history_id') || '[]');
+            if (history[index]) {
+                generatedJSONObject = history[index].data;
+                renderOutput();
+                toggleHistoryModal();
+                showToast(`Prompt "${history[index].nama_proyek}" dimuat!`);
+            }
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('math_prompt_history_id');
+            renderHistoryList();
+            showToast("Riwayat prompt telah dibersihkan!");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
